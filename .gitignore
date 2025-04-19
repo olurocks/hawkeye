@@ -1,0 +1,4 @@
+node_modules
+.env
+src/logging
+src/user_data
