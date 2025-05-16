@@ -5,6 +5,7 @@ import { saveMedia, saveMediaWorker } from "./mediaHandler";
 import logger from "../logging/logger";
 import { frequency } from "../utils/constants";
 import { ITweet, IMedia, STweet } from "../utils/interfaces";
+import { io } from "../server";
 //friendly reminder if it works don't touch it
 
 export class TwitterScraper {
@@ -95,115 +96,68 @@ export class TwitterScraper {
     }
   }
 
-  // private async simulateUserInteraction() {
-  //   try {
-  //     // Click on different parts of the page
-  //     await this.page.evaluate(() => {
-  //       // Click on tweet area
-  //       const tweet = document.querySelector('article[data-testid="tweet"]');
-  //       if (tweet) {
-  //         (tweet as HTMLElement).click();
-  //         console.log("Clicked on tweet");
-  //       }
-        
-  //       // Click outside the tweet (background)
-  //       setTimeout(() => {
-  //         const background = document.querySelector('div[aria-label="Home timeline"]');
-  //         if (background) {
-  //           (background as HTMLElement).click();
-  //           console.log("Clicked on background");
-  //         }
-  //       }, 500);
-        
-  //       // Click near image container
-  //       setTimeout(() => {
-  //         const mediaContainer = document.querySelector('div[data-testid="tweetPhoto"]');
-  //         if (mediaContainer) {
-  //           (mediaContainer as HTMLElement).click();
-  //           console.log("Clicked near media");
-  //         }
-  //       }, 1000);
-  //     });
-      
-  //     // Brief pause between clicks
-  //     await new Promise(resolve => setTimeout(resolve, 1500));
-  //   } catch (error) {
-  //     console.error("Error during user interaction simulation:", error);
-  //   }
-  // }
-
-  private async simulateHumanScrolling() {
-    try {
-      // Perform gradual, human-like scrolling
-      await this.page.evaluate(() => {
-        const totalScrollDistance = 700;
-        const scrollSteps = 15;
-        const stepSize = totalScrollDistance / scrollSteps;
-        
-        // Scroll down gradually with random variations
-        for (let i = 0; i < scrollSteps; i++) {
-          setTimeout(() => {
-            const randomVariation = Math.random() * 10 - 5; // -5 to +5 pixels
-            window.scrollBy(0, stepSize + randomVariation);
-          }, i * (100 + Math.random() * 50)); // Random delay between 100-150ms
-        }
-        
-        // Pause briefly at the bottom
-        setTimeout(() => {
-          console.log("Reached bottom of scroll");
-        }, scrollSteps * 150);
-        
-        // Scroll back up gradually
-        setTimeout(() => {
-          for (let i = 0; i < scrollSteps; i++) {
-            setTimeout(() => {
-              const randomVariation = Math.random() * 8 - 4; // -4 to +4 pixels
-              window.scrollBy(0, -(stepSize + randomVariation));
-            }, i * (120 + Math.random() * 40)); // Random delay between 120-160ms
-          }
-        }, scrollSteps * 150 + 1000); // Wait 1 second before scrolling back up
-      });
-      
-      // Wait for scrolling to complete
-      await new Promise(resolve => setTimeout(resolve, 4000));
-    } catch (error) {
-      console.error("Error during human scrolling simulation:", error);
-    }
-  }
-
   private async getImageUrlsFromTweetId(tweetId: string): Promise<string[]> {
     try {
       console.log(`Extracting images from tweet ID: ${tweetId}`);
 
-      await this.page.setViewport({ width: 1280, height: 800 });
+      // Get the browser instance from the current page
+      const browser = this.page.browser();
 
-      await this.page.goto(`https://twitter.com/i/web/status/${tweetId}`, {
+      // Create a new page/tab
+      const imagePage = await browser.newPage();
+
+      // Set fullscreen viewport
+      const screen = await imagePage.evaluate(() => {
+        return {
+          width: window.screen.availWidth,
+          height: window.screen.availHeight,
+        };
+      });
+
+      await imagePage.setViewport({
+        width: screen.width,
+        height: screen.height,
+      });
+
+      // Navigate to the tweet
+      await imagePage.goto(`https://twitter.com/i/web/status/${tweetId}`, {
         waitUntil: "networkidle2",
         timeout: 60000,
       });
 
       // Wait a moment to let the DOM settle
       await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Set to fullscreen mode
+      await imagePage.evaluate(() => {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        }
+      });
+
       // Wait for tweet content to be in the DOM
-      await this.page.waitForSelector('article[data-testid="tweet"]', {
+      await imagePage.waitForSelector('article[data-testid="tweet"]', {
         timeout: 15000,
       });
-      
+
       // Wait longer after interactions
       await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      // Scroll to ensure images are loaded
+      await imagePage.evaluate(() => {
+        window.scrollTo(0, 300);
+      });
 
       // Optional: wait again to ensure images begin to load
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log("Scrolled page to help load images");
 
-      // 👇 Scrape image URLs
-      const imageUrls = await this.page.evaluate(() => {
+      // Scrape image URLs
+      const imageUrls = await imagePage.evaluate(() => {
         const tweet = document.querySelector('article[data-testid="tweet"]');
         if (!tweet) return [];
-
         const images = tweet.querySelectorAll("img");
         const urls: string[] = [];
-
         images.forEach((img) => {
           const src = img.src;
           if (src && src.includes("twimg.com/media")) {
@@ -211,11 +165,14 @@ export class TwitterScraper {
             urls.push(highQualitySrc);
           }
         });
-
         return urls;
       });
 
       console.log(`Found ${imageUrls.length} image(s):`, imageUrls);
+
+      // Close the tab when done
+      await imagePage.close();
+
       return imageUrls;
     } catch (error) {
       console.error("Error getting image URLs from tweet ID:", error);
@@ -333,9 +290,30 @@ export class TwitterScraper {
 
       const tweetData = await this.page.evaluate(
         (username, profileImageUrl) => {
-          const tweetElement = document.querySelector(
+          // const tweetElement = document.querySelector(
+          //   'article[data-testid="tweet"]'
+          // );
+
+          const tweetElements = document.querySelectorAll(
             'article[data-testid="tweet"]'
           );
+          if (!tweetElements || tweetElements.length === 0) return null;
+          const firstTweet = tweetElements[0];
+          const isPinned = !!firstTweet
+            .querySelector(
+              'div[data-testid="socialContext"][role="presentation"]:not([style*="display: none"])'
+            )
+            ?.textContent?.includes("Pinned");
+
+          // Select the appropriate tweet - if first is pinned, use the second tweet (if available)
+          const tweetElement =
+            isPinned && tweetElements.length > 1
+              ? tweetElements[1]
+              : tweetElements[0];
+
+          if (isPinned) {
+            console.log("Skipping pinned tweet and using the next tweet");
+          }
 
           if (!tweetElement) return null;
 
@@ -386,7 +364,6 @@ export class TwitterScraper {
           const quoteCount = 0;
 
           return {
-            id: tweetId || "",
             author_id: authorId,
             tweet_id: tweetId || "",
             text: textElement?.textContent || "",
@@ -484,11 +461,41 @@ export class TwitterScraper {
       }
 
       this.lastKnownTweetIds.set(username, tweetData.tweet_id);
-      console.log(`✅ New tweet found from ${username}!`);
       return tweetData;
     } catch (error) {
       logger.error(`Error scraping latest tweet from ${username}:`, error);
       return null;
+    }
+  }
+
+  async saveTweetToDatabase(tweet: STweet): Promise<ITweet | null> {
+    try {
+      // Convert STweet to database model format if needed
+      const tweetToSave = new Tweet({
+        tweet_id: tweet.tweet_id,
+        author_id: tweet.author_id,
+        text: tweet.text,
+        username: tweet.username,
+        media: tweet.media,
+        hashtags: tweet.hashtags,
+        profile_image_url: tweet.profile_image_url,
+        retweet_count: tweet.retweet_count,
+        like_count: tweet.like_count,
+        reply_count: tweet.reply_count,
+        quote_count: tweet.quote_count,
+        hasVideo: tweet.hasVideo,
+      });
+
+      // Save to database
+      const savedTweet = await tweetToSave.save();
+      logger.info(
+        `Tweet from @${tweet.username} saved to database with ID: ${savedTweet._id}`
+      );
+
+      return savedTweet.toObject();
+    } catch (error) {
+      logger.error("Error saving tweet to database:", error);
+      throw error;
     }
   }
 
@@ -514,7 +521,6 @@ export class TwitterScraper {
         const newTweet = await this.getLatestTweet(username);
         if (newTweet) {
           console.log(`New tweet found from ${username}, processing...`);
-          console.log("New Tweet:", newTweet);
 
           if (onNewTweet) {
             await onNewTweet(newTweet);
@@ -634,6 +640,75 @@ export class MultiAccountTwitterScraper {
   }
 }
 
+export async function saveTweetToDatabase(tweet: STweet): Promise<ITweet> {
+  try {
+    // First, ensure media is properly structured
+    // Check if each media item has the expected structure
+    const mediaArray = tweet.media
+      .map((item) => {
+        // If item is already properly structured
+        if (typeof item === "object" && item !== null) {
+          return {
+            media_key: item.media_key,
+            type: item.type,
+            urls: Array.isArray(item.urls)
+              ? item.urls
+              : [item.urls].filter(Boolean),
+            preview_image_url: item.preview_image_url,
+            alt_text: item.alt_text || "Image",
+          };
+        }
+        // If item somehow became a string (stringified JSON)
+        else if (typeof item === "string") {
+          try {
+            const parsed = JSON.parse(item);
+            return {
+              media_key: parsed.media_key,
+              type: parsed.type,
+              urls: Array.isArray(parsed.urls)
+                ? parsed.urls
+                : [parsed.urls].filter(Boolean),
+              preview_image_url: parsed.preview_image_url,
+              alt_text: parsed.alt_text || "Image",
+            };
+          } catch (e) {
+            logger.error("Failed to parse media item:", e);
+            return null;
+          }
+        }
+        return null;
+      })
+      .filter(Boolean); // Remove any null items
+
+    // Create the Tweet document with the properly processed media array
+    const tweetToSave = new Tweet({
+      tweet_id: tweet.tweet_id,
+      author_id: tweet.author_id,
+      text: tweet.text,
+      username: tweet.username,
+      media: mediaArray,
+      hashtags: tweet.hashtags,
+      profile_image_url: tweet.profile_image_url,
+      retweet_count: tweet.retweet_count,
+      like_count: tweet.like_count,
+      reply_count: tweet.reply_count,
+      quote_count: tweet.quote_count,
+      hasVideo: tweet.hasVideo,
+    });
+
+    // Save to database
+    const savedTweet = await tweetToSave.save();
+    logger.info(
+      `Tweet from @${tweet.username} saved to database with ID: ${savedTweet._id}`
+    );
+
+    return savedTweet.toObject();
+  } catch (error) {
+    logger.error("Error saving tweet to database:", error);
+    throw error;
+  }
+}
+
 export const startMultiAccountScraping = async (
   browser: Browser,
   usersToTrack: string[],
@@ -641,8 +716,27 @@ export const startMultiAccountScraping = async (
 ): Promise<MultiAccountTwitterScraper> => {
   const multiScraper = new MultiAccountTwitterScraper(browser);
 
+  // Define a callback that saves to DB and emits socket event
+  const handleNewTweet = async (tweet: STweet): Promise<void> => {
+    try {
+      // Save tweet to database
+      const savedTweet = await saveTweetToDatabase(tweet);
+
+      // Emit socket event to notify frontend
+      console.log("New tweet emitted:", tweet);
+      io.emit("new-tweet", savedTweet);
+
+      // Also call the original callback if provided
+      if (callbackFn) {
+        await callbackFn(tweet);
+      }
+    } catch (error) {
+      logger.error("Error in handleNewTweet function:", error);
+    }
+  };
+
   for (const username of usersToTrack) {
-    await multiScraper.addAccount(username, frequency, callbackFn);
+    await multiScraper.addAccount(username, frequency, handleNewTweet);
   }
 
   console.log(

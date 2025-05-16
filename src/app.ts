@@ -2,12 +2,12 @@ const express = require("express");
 const dotenv = require("dotenv");
 import { Request, Response } from "express";
 import { startTwitterStream } from "./handlers/getTweetsStream";
-import { connectDB } from "./config/database";
+import { connectDb } from "./config/database";
 import { ACCOUNTS_TO_MONITOR } from "./utils/constants";
-import path from "path"
+import path from "path";
 
 dotenv.config();
-connectDB();
+connectDb();
 
 const app = express();
 

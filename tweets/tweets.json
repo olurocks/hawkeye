@@ -1,0 +1,818 @@
+[
+  {
+    "_id": {
+      "$oid": "6817fa55ebe2c649f6b11d06"
+    },
+    "author_id": "lynk0x",
+    "tweet_id": "1919153420952273277",
+    "text": "Guys what do I do?",
+    "username": "lynk0x",
+    "media": [
+      {
+        "media_key": "1919153420952273277_img_0",
+        "type": "photo",
+        "urls": [
+          "https://pbs.twimg.com/media/GqIz06xXYAAqrYY?format=png&name=orig"
+        ],
+        "preview_image_url": "https://pbs.twimg.com/media/GqIz06xXYAAqrYY?format=png&name=orig",
+        "alt_text": "Image",
+        "_id": {
+          "$oid": "6817fa55d5d1166f19ee978c"
+        }
+      }
+    ],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1848910264051052546/Mu18BSYv_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401877918"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401877918"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401877918"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fa5db14ed84eab745aa1"
+    },
+    "author_id": "dior100x",
+    "tweet_id": "1919171995981267356",
+    "text": "Gork pumps to 94m\n\nI sell fully for 200 sol pnl\n\nSee ppl selling troll down to 28m to buy gork\n\nI go buy troll with all my gork profit and intials\n\nTroll 32m gork sub 60\n\nNoice",
+    "username": "Dior100x",
+    "media": [],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1915507326464712704/QHL5Hrdm_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401885679"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401885679"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401885679"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fa6526b2706b5eab134b"
+    },
+    "author_id": "olur0cks",
+    "tweet_id": "1918114881435516975",
+    "text": "Ahahahaha.  Elon will land on mars before any of this shit works.",
+    "username": "olur0cks",
+    "media": [
+      {
+        "media_key": "1918114881435516975_img_0",
+        "type": "photo",
+        "urls": [
+          "https://pbs.twimg.com/media/GpzdAFqaIAAQdHC?format=png&name=orig"
+        ],
+        "preview_image_url": "https://pbs.twimg.com/media/GpzdAFqaIAAQdHC?format=png&name=orig",
+        "alt_text": "Image",
+        "_id": {
+          "$oid": "6817fa65dfbc91f25cb96933"
+        }
+      }
+    ],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1747872307610112000/4npct3te_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401893412"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401893412"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401893412"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fa7dd354c2bd61d60507"
+    },
+    "author_id": "blknoiz06",
+    "tweet_id": "1919143573477306687",
+    "text": "goat",
+    "username": "blknoiz06",
+    "media": [
+      {
+        "media_key": "1919143573477306687_img_0",
+        "type": "photo",
+        "urls": [
+          "https://pbs.twimg.com/media/GqIn8HUXwAE4Nao.jpg"
+        ],
+        "preview_image_url": "https://pbs.twimg.com/media/GqIn8HUXwAE4Nao.jpg",
+        "alt_text": "Image",
+        "_id": {
+          "$oid": "6817fa6e87210c7b50cf61ca"
+        }
+      },
+      {
+        "media_key": "1919143573477306687_video_0",
+        "type": "video",
+        "urls": [
+          "https://video.twimg.com/amplify_video/1919140028434825216/pl/7i1MTyM2O-BMX1ek.m3u8?variant_version=1&tag=16&v=45a"
+        ],
+        "preview_image_url": "",
+        "alt_text": "Video",
+        "_id": {
+          "$oid": "6817fa7dcafaec54769cf7a8"
+        }
+      }
+    ],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1909437863592132608/R14kQm8j_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": true,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401917550"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401917550"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401917550"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fa860e890c09455d60be"
+    },
+    "author_id": "henokcrypto",
+    "tweet_id": "1918813130810876263",
+    "text": "You can NOT smoke weed and reach your full potential while maintaining success over long periods of time.",
+    "username": "henokcrypto",
+    "media": [],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1885724452547170304/TDj5c3uK_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401926159"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401926159"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401926159"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fa9a07c441e30433786d"
+    },
+    "author_id": "blknoiz06",
+    "tweet_id": "1919143573477306687",
+    "text": "goat",
+    "username": "blknoiz06",
+    "media": [
+      {
+        "media_key": "1919143573477306687_img_0",
+        "type": "photo",
+        "urls": [
+          "https://pbs.twimg.com/media/GqIn8HUXwAE4Nao.jpg"
+        ],
+        "preview_image_url": "https://pbs.twimg.com/media/GqIn8HUXwAE4Nao.jpg",
+        "alt_text": "Image",
+        "_id": {
+          "$oid": "6817fa8d68c22424f4aad30d"
+        }
+      },
+      {
+        "media_key": "1919143573477306687_video_0",
+        "type": "video",
+        "urls": [
+          "https://video.twimg.com/amplify_video/1883909426022670336/aud/mp4a/12000/15000/64000/Uyair12PVy2Ln2cC.m4s"
+        ],
+        "preview_image_url": "",
+        "alt_text": "Video",
+        "_id": {
+          "$oid": "6817fa9a2bb9d5ef35094ff9"
+        }
+      }
+    ],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1909437863592132608/R14kQm8j_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": true,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401946269"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401946269"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401946269"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817faa268ed4dba22ab8374"
+    },
+    "author_id": "cheatcoiner",
+    "tweet_id": "1754990991520497825",
+    "text": "When you make enough to quit your job this cycle, do NOT leave on “good terms”. Burn every single bridge. Tell all of management to go fuck themselves. Call your colleagues poor via LinkedIn. \n\nBecome Unemployable.",
+    "username": "cheatcoiner",
+    "media": [],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1663395565101539330/9tUvJVzH_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401954173"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401954173"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401954173"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fab7de4a12b1471827d6"
+    },
+    "author_id": "degeneratenews",
+    "tweet_id": "1919109508120371209",
+    "text": "NEW: TRUMP LEARNS BY HOW MUCH HIS MEMECOIN SURGED AFTER THE PROJECT ANNOUNCED A DINNER FOR ITS TOP HOLDERS IN NBC INTERVIEW",
+    "username": "DegenerateNews",
+    "media": [
+      {
+        "media_key": "1919109508120371209_video_0",
+        "type": "video",
+        "urls": [
+          "https://pbs.twimg.com/amplify_video_thumb/1919103950210703361/img/1-ccgFIxsNT3zByY.jpg"
+        ],
+        "preview_image_url": "",
+        "alt_text": "Video",
+        "_id": {
+          "$oid": "6817fab7236b0c11b29d11e7"
+        }
+      }
+    ],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1551586710873550848/8_M8f6ds_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": true,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401975368"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401975368"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401975368"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fabf5944ff7e15ec24f3"
+    },
+    "author_id": "frankdegods",
+    "tweet_id": "1891368916527804534",
+    "text": "i was honestly trying to be sarcastic and it really backfired\n\ni saw in multiple chats over the last week that there was going to be an official argentina coin. that’s the extent of my insider knowledge.\n\ni genuinely did not get insider on this launch nor did anyone i personally",
+    "username": "frankdegods",
+    "media": [],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1875856094003712000/uPMXWOrl_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401983388"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401983388"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401983388"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fac887d4724549542ff9"
+    },
+    "author_id": "aeyakovenko",
+    "tweet_id": "1919173018154078718",
+    "text": "Bullish AI companies probably",
+    "username": "aeyakovenko",
+    "media": [],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1906899997880430592/E3nf0cY-_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746401992157"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746401992157"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746401992157"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fad0bd8a91d773ab1ed3"
+    },
+    "author_id": "solnfts",
+    "tweet_id": "1918709450359079381",
+    "text": "gm",
+    "username": "solNfts",
+    "media": [],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1918392894840250368/3RLdEvlU_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746402000281"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746402000281"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746402000281"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fad75cbf00154e940a9b"
+    },
+    "author_id": "solana",
+    "tweet_id": "1919129432544923793",
+    "text": "Everything is happening on solana",
+    "username": "solana",
+    "media": [
+      {
+        "media_key": "1919129432544923793_img_0",
+        "type": "photo",
+        "urls": [
+          "https://pbs.twimg.com/media/GqIZkUjaIAAOJY7?format=jpg&name=orig"
+        ],
+        "preview_image_url": "https://pbs.twimg.com/media/GqIZkUjaIAAOJY7?format=jpg&name=orig",
+        "alt_text": "Image",
+        "_id": {
+          "$oid": "6817fad7704e421bf003c396"
+        }
+      }
+    ],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1472933274209107976/6u-LQfjG_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746402007096"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746402007096"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746402007096"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817faefc7aed3e89f2b7c93"
+    },
+    "author_id": "naiivememe",
+    "tweet_id": "1919167907822744036",
+    "text": "Waiting for my portfolio to 10X so I can finally live my life",
+    "username": "naiivememe",
+    "media": [
+      {
+        "media_key": "1919167907822744036_img_0",
+        "type": "photo",
+        "urls": [
+          "https://pbs.twimg.com/media/GprMAtgbkAATYsP?format=jpg&name=orig"
+        ],
+        "preview_image_url": "https://pbs.twimg.com/media/GprMAtgbkAATYsP?format=jpg&name=orig",
+        "alt_text": "Image",
+        "_id": {
+          "$oid": "6817faefef15facf05fe6113"
+        }
+      }
+    ],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1712169020424933376/Y_KdDb2A_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746402031467"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746402031467"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746402031467"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817faf72eead9696700a942"
+    },
+    "author_id": "party_fi",
+    "tweet_id": "1656726323723927553",
+    "text": "What's the difference between a shitcoin and a memecoin?\n\nWe asked our community of degen traders and here was the best response:\n\nShitcoin: Small Community, unlocked LQ and no plans for product going forward\n\nMemecoin: Locked liquidity, Contract renounced, roadmap, etc.",
+    "username": "party_fi",
+    "media": [],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1498451556781670404/GU_yPtme_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746402039871"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746402039871"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746402039871"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817faff74edf067cdc467b7"
+    },
+    "author_id": "suganarium",
+    "tweet_id": "1917530035939914190",
+    "text": "the bois just landed in dubai- who wants to link?????",
+    "username": "suganarium",
+    "media": [
+      {
+        "media_key": "1917530035939914190_img_0",
+        "type": "photo",
+        "urls": [
+          "https://pbs.twimg.com/media/GpxuhLbXIAASwuL?format=jpg&name=orig"
+        ],
+        "preview_image_url": "https://pbs.twimg.com/media/GpxuhLbXIAASwuL?format=jpg&name=orig",
+        "alt_text": "Image",
+        "_id": {
+          "$oid": "6817faff08d4ea9e31bc19ae"
+        }
+      }
+    ],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1757857533803257856/57f2DcZi_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746402047891"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746402047891"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746402047891"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6817fb08cd1782c350ec4727"
+    },
+    "author_id": "deanbulla",
+    "tweet_id": "1919172710220943452",
+    "text": "when a coin starts ranging on ATHs after ATHs that’s when you know it’s going to be a very violent ripper.",
+    "username": "deanbulla",
+    "media": [],
+    "hashtags": "",
+    "profile_image_url": "https://pbs.twimg.com/profile_images/1910259242986090496/-FLCPfTe_200x200.jpg",
+    "retweet_count": {
+      "$numberInt": "0"
+    },
+    "like_count": {
+      "$numberInt": "0"
+    },
+    "reply_count": {
+      "$numberInt": "0"
+    },
+    "quote_count": {
+      "$numberInt": "0"
+    },
+    "hasVideo": false,
+    "created_at": {
+      "$date": {
+        "$numberLong": "1746402056081"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1746402056081"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1746402056081"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

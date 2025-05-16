@@ -1,45 +1,33 @@
 import mongoose from "mongoose";
 import { ITweet, IMedia } from "../utils/interfaces";
+
+const MediaSchema = new mongoose.Schema<IMedia>(
+  {
+    media_key: { type: String, required: true },
+    type: { type: String, required: true },
+    urls: [{ type: String }], // This should be an array of strings
+    preview_image_url: { type: String },
+    alt_text: { type: String },
+  }
+  // { _id: false } // Disable automatic creation of _id field for subdocuments
+);
+
 const TweetSchema = new mongoose.Schema<ITweet>(
   {
-    tweet_id: { type: String, required: true, unique: true },
-    text: { type: String, required: true },
     author_id: { type: String, required: true },
+    tweet_id: { type: String, required: true, unique: true },
+    text: { type: String },
     username: { type: String },
-    created_at: { type: Date, default: Date.now },
+    media: [MediaSchema],
     hashtags: String,
-    media: [
-      {
-        media_key: String,
-        type: String,
-        url: String,
-        preview_image_url: String,
-      },
-    ],
+    created_at: { type: Date, default: Date.now },
     profile_image_url: { type: String },
-    retweet_count: { type: Number, default: 0 },  
-    
-    // entities: {
-    //   urls: [
-    //     {
-    //       url: String,
-    //       expanded_url: String,
-    //       display_url: String,
-    //     },
-    //   ],
-    //   hashtags: [
-    //     {
-    //       tag: String,
-    //     },
-    //   ],
-    //   mentions: [
-    //     {
-    //       username: String,
-    //     },
-    //   ],
-    // },
+    retweet_count: { type: Number, default: 0 },
+    like_count: { type: Number, default: 0 },
+    reply_count: { type: Number, default: 0 },
+    quote_count: { type: Number, default: 0 },
+    hasVideo: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
-
 export const Tweet = mongoose.model("Tweet", TweetSchema);
