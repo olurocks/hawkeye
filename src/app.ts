@@ -1,23 +1,48 @@
-const express = require("express");
-const dotenv = require("dotenv");
-import { Request, Response } from "express";
-import { startTwitterStream } from "./handlers/getTweetsStream";
-import { connectDb } from "./config/database";
-import { ACCOUNTS_TO_MONITOR } from "./utils/constants";
-import path from "path";
+// index.ts - Main application entry point
+import { startServer } from "./server";
+import { pollTweets } from "./twitterClient";
+// This file connects your Twitter client and server together
 
-dotenv.config();
-connectDb();
+async function main() {
+  try {
+    const { io, server } = await startServer();
 
-const app = express();
+    // Initial poll
+    await pollTweets(io);
 
-app.get("/tweets", async (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, 'public','index.html'))
+    // Set up continuous polling every 65 seconds
+    const pollInterval = setInterval(async () => {
+      try {
+        await pollTweets(io);
+      } catch (error) {
+        console.error("Error during scheduled polling:", error);
+      }
+    }, 65000);
+
+    // Handle cleanup on exit
+    process.on("SIGINT", () => {
+      // clearInterval(pollInterval);
+      console.log("Shutting down application...");
+      server.close(() => {
+        console.log("Server closed");
+        process.exit(0);
+      });
+    });
+
+    console.log(
+      "Twitter stream and server successfully connected and running!"
+    );
+  } catch (error) {
+    console.error("Failed to start application:", error);
+    process.exit(1);
+  }
+}
+
+// Handle process termination
+process.on("SIGINT", () => {
+  console.log("Shutting down application...");
+  process.exit(0);
 });
 
-if (ACCOUNTS_TO_MONITOR.length > 0) {
-    console.log(`Starting to monitor tweets from: ${ACCOUNTS_TO_MONITOR.join(', ')}`);
-    startTwitterStream(ACCOUNTS_TO_MONITOR);
-  } else {
-    console.error('No accounts to monitor. Please set ACCOUNTS_TO_MONITOR environment variable.');
-  }
+// Start the application
+main();

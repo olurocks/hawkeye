@@ -3,12 +3,12 @@ import { Date, Document } from "mongoose";
 export interface IMedia {
   media_key: string;
   type: string;
-  urls?: string[];
+  url: string;
   preview_image_url?: string;
   alt_text?: string;
 }
 
-export interface ITweet extends Document {
+export interface ITweet {
   author_id: string;
   tweet_id: string;
   text: string;
@@ -24,6 +24,13 @@ export interface ITweet extends Document {
   hasVideo: boolean;
 }
 
+export type MediaItem = {
+  media_key: string;
+  type: string;
+  url: string;
+  preview_image_url?: string;
+};
+
 export interface STweet {
   author_id: string;
   tweet_id: string;
@@ -38,4 +45,10 @@ export interface STweet {
   reply_count: number;
   quote_count: number;
   hasVideo: boolean;
+}
+
+export interface IAuthor {
+  author_id: string;
+  profile_image_url: string;
+  username: string;
 }
