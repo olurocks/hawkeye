@@ -50,10 +50,6 @@ export const getTweetsFromList = async (listId: string) => {
         "media.fields": `url,type,preview_image_url`,
     };
 
-    if (startTime) {
-        params.start_time = await convertToRFC3339(startTime[0]);
-    }
-
     const tweetResponse = await axios.get(base_url, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -152,7 +148,7 @@ export const processTweet = async (
 
     if (!user) {
       console.log(
-        `Author id ${authorId} not foound in the database, skipping author`
+        `Author id ${authorId} not found in the database, skipping author`
       );
       return;
     }
@@ -168,7 +164,6 @@ export const processTweet = async (
 
     // Process media
     const mediaList = await extractMediaForTweet(tweet, allMedia);
-    console.log("mediaList: ", mediaList)
     const hasVideo = mediaList.some((media) => media.type === "video");
 
     const existing = await Tweet.findOne({ tweet_id: tweet.id });
@@ -195,10 +190,13 @@ export const processTweet = async (
     const tweetToSave = new Tweet(tweetData);
 
     // Save to database
-    await tweetToSave.save();
-    console.log(`Saved tweet: ${tweet.id} from @${user.username}`);
-
-    return tweetToSave;
+    try {
+      await tweetToSave.save();
+      return tweetData;
+    } catch (saveError) {
+      console.error(`Failed to save tweet ${tweet.id}:`, saveError);
+      throw saveError;
+    }
   } catch (error) {
     console.error("Error processing tweet:", error);
   }

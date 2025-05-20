@@ -10,17 +10,17 @@ export const pollTweets = async (io: Server) => {
     const { tweets, includes } = await getTweetsFromList(listId);
     
     if (tweets && tweets.length > 0) {
-      console.log(`Processing ${tweets.length} tweets`);
-      const newTweets= []
-      
+      const newTweets = [];
+
       for (const tweet of tweets) {
-        await processTweet(tweet, io, includes.media);
-        newTweets.push(tweet);
+        const savedTweet = await processTweet(tweet, io, includes?.media);
+        if (!savedTweet) {
+          continue;
+        }
+        newTweets.push(savedTweet);
       }
-      
+
       io.emit("new-tweets", newTweets);
-      console.log("Emitted new tweets to connected clients");
-      console.log("Instructed frontend clients to get the latest updates from the database");
     } else {
       console.log("No tweets found in the list or API returned empty response");
     }

@@ -8,6 +8,7 @@ async function main() {
     const { io, server } = await startServer();
 
     // Initial poll
+
     await pollTweets(io);
 
     // Set up continuous polling every 65 seconds
