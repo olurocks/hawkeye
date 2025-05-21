@@ -9,16 +9,16 @@ async function main() {
 
     // Initial poll
 
-    await pollTweets(io);
+    // await pollTweets(io);
 
-    // Set up continuous polling every 65 seconds
-    const pollInterval = setInterval(async () => {
-      try {
-        await pollTweets(io);
-      } catch (error) {
-        console.error("Error during scheduled polling:", error);
-      }
-    }, 65000);
+    // // Set up continuous polling every 65 seconds
+    // const pollInterval = setInterval(async () => {
+    //   try {
+    //     await pollTweets(io);
+    //   } catch (error) {
+    //     console.error("Error during scheduled polling:", error);
+    //   }
+    // }, 65000);
 
     // Handle cleanup on exit
     process.on("SIGINT", () => {
