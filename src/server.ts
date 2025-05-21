@@ -19,7 +19,7 @@ export async function startServer() {
   // Apply CORS middleware to Express app
   app.use(
     cors({
-      origin: "http://localhost:3001", // Your frontend URL
+      origin: "https://hawkeyesol.netlify.app/", // Your frontend URL
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
     })
@@ -28,7 +28,7 @@ export async function startServer() {
   const httpServer = createServer(app);
   const io = new Server(httpServer, {
     cors: {
-      origin: "http://localhost:3001", // Your frontend URL
+      origin: "https://hawkeyesol.netlify.app/", // Your frontend URL
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
     },
