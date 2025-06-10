@@ -9,31 +9,39 @@ import { ITweet } from "./utils/interfaces";
 import { pollTweets } from "./twitterClient";
 
 import cors from "cors";
+import { CashtagUtils } from "./helpers/cashtagHelpers";
+import { error } from "console";
+
+const productionUrl = process.env.PRODUCTION_FRONTEND_URL;
+const developmentUrl = process.env.DEVELOPMENT_FRONTEND_URL;
+const mode = process.env.MODE || "development";
 
 export async function startServer() {
   // Connect to database
   await connectDb();
 
   const app = express();
+  const allowedOrigin = mode === "production" ? productionUrl : developmentUrl;
 
-  // Apply CORS middleware to Express app
+  let io: Server;
+  const httpServer = createServer(app);
+
+  io = new Server(httpServer, {
+    cors: {
+      origin: allowedOrigin, // Your frontend URL
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    },
+  });
   app.use(
     cors({
-      origin: "https://hawkeyesol.netlify.app", // Your frontend URL
+      origin: allowedOrigin, // Your frontend URL
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
     })
   );
 
-  const httpServer = createServer(app);
-  const io = new Server(httpServer, {
-    cors: {
-      origin: "https://hawkeyesol.netlify.app", // Your frontend URL
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
-    },
-  });
-
+  //delete in prod
   io.on("connection", (socket) => {
     console.log("New client connected");
 
@@ -59,6 +67,48 @@ export async function startServer() {
     } catch (error) {
       console.error("Error fetching tweets:", error);
       res.status(500).json({ error: "Failed to fetch tweets" });
+    }
+  });
+
+  app.get("/api/cashtags/trending", async (req, res) => {
+    try {
+      const trending = await CashtagUtils.getTrendingCashtags(20);
+      res.json(trending);
+    } catch (error) {
+      console.error("Error fetching trending cashtags:", error);
+      res.status(500).json({ error: "Failed to fetch trending cashtags" });
+    }
+  });
+
+  //get token stats
+  app.get("/api/ticker/stats", async (req, res) => {
+    const ticker = req.query.ticker as string;
+    if (!ticker) {
+      res.status(400).json({ error: "Ticker query parameter is required" });
+      return;
+    }
+
+    const tickerStats = await CashtagUtils.getCashtagDetail(ticker);
+    if (!tickerStats) {
+      res.status(404).json({ error: "Ticker not found" });
+      return;
+    }
+    res.json(tickerStats);
+  });
+
+  app.get("/api/author/cashtags", async (req, res) => {
+    const authorId = req.query.authorId as string;
+    if (!authorId) {
+      res.status(400).json({ error: "Author ID query parameter is required" });
+      return;
+    }
+
+    try {
+      const cashtags = await CashtagUtils.getCashtagsByAuthor(authorId);
+      res.json(cashtags);
+    } catch (error) {
+      console.error("Error fetching cashtags by author:", error);
+      res.status(500).json({ error: "Failed to fetch cashtags by author" });
     }
   });
 

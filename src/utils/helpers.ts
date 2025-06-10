@@ -3,6 +3,7 @@ import { IMedia, MediaItem, ITweet } from "./interfaces";
 import { Tweet } from "../models/tweet.model";
 import { Server } from "socket.io";
 import { Author } from "../models/author.model";
+import { Cashtag } from "../models/cashtag.model";
 import { X_API_KEY, X_API_SECRET, BEARER_TOKEN } from "../utils/constants";
 
 const token = BEARER_TOKEN;
@@ -19,22 +20,129 @@ const getLastTweetTime = async (): Promise<string | null> => {
 
 export const convertToRFC3339 = (rawDate: string): string | null => {
   try {
-    // Decode URI components (e.g., "%2B" → "+")
-    const decoded = decodeURIComponent(rawDate.replace(/\+/g, ' '));
+    const decoded = decodeURIComponent(rawDate.replace(/\+/g, " "));
 
-    // Create Date object
     const date = new Date(decoded);
 
-    // Check if it's valid
     if (isNaN(date.getTime())) {
       throw new Error("Invalid date format");
     }
 
-    // Convert to RFC3339
-    return date.toISOString(); // returns in UTC (e.g., "2025-05-19T08:41:54.000Z")
+    return date.toISOString();
   } catch (error) {
     console.error("Failed to parse date:", error);
     return null;
+  }
+};
+
+export const extractCashtags = (text: string): string[] => {
+  const cashtagPattern = /\$[A-Z]{1,6}(?:\.[A-Z]{1,4})?/g;
+  const cashtags = text.match(cashtagPattern);
+
+  if (!cashtags) return [];
+
+  // Remove duplicates and clean up
+  return [...new Set(cashtags.map((tag) => tag.toUpperCase()))];
+};
+
+// New function to update cashtag tracking
+export const updateCashtagTracking = async (
+  cashtags: string[],
+  authorId: string,
+  username: string,
+  tweetId: string,
+  tweetDate: Date
+) => {
+  try {
+    for (const cashtag of cashtags) {
+      // Find existing cashtag document
+      let cashtagDoc = await Cashtag.findOne({ cashtag });
+
+      if (!cashtagDoc) {
+        // Create new cashtag document
+        cashtagDoc = new Cashtag({
+          cashtag,
+          mention_count: 1,
+          first_mentioned: tweetDate,
+          last_mentioned: tweetDate,
+          mentioned_by: [
+            {
+              author_id: authorId,
+              username,
+              mention_count: 1,
+              last_mentioned: tweetDate,
+            },
+          ],
+        });
+      } else {
+        // Update existing cashtag
+        cashtagDoc.mention_count += 1;
+        cashtagDoc.last_mentioned = tweetDate;
+
+        // Find if this author has mentioned this cashtag before
+        const existingAuthor = cashtagDoc.mentioned_by.find(
+          (author) => author.author_id === authorId
+        );
+
+        if (existingAuthor) {
+          // Update existing author's mention count
+          existingAuthor.mention_count += 1;
+          existingAuthor.last_mentioned = tweetDate;
+        } else {
+          // Add new author to the mentioned_by array
+          cashtagDoc.mentioned_by.push({
+            author_id: authorId,
+            username,
+            mention_count: 1,
+            last_mentioned: tweetDate,
+          });
+        }
+      }
+
+      await cashtagDoc.save();
+    }
+  } catch (error) {
+    console.error("Error updating cashtag tracking:", error);
+  }
+};
+
+// New function to get cashtag statistics
+export const getCashtagStats = async (cashtag?: string) => {
+  try {
+    if (cashtag) {
+      // Get stats for a specific cashtag
+      const cashtagDoc = await Cashtag.findOne({
+        cashtag: cashtag.toUpperCase(),
+      });
+      return cashtagDoc;
+    } else {
+      // Get all cashtags sorted by mention count
+      const cashtags = await Cashtag.find({})
+        .sort({ mention_count: -1 })
+        .limit(50);
+      return cashtags;
+    }
+  } catch (error) {
+    console.error("Error getting cashtag stats:", error);
+    return null;
+  }
+};
+
+// New function to get top mentioners for a cashtag
+export const getTopMentioners = async (cashtag: string, limit: number = 10) => {
+  try {
+    const cashtagDoc = await Cashtag.findOne({
+      cashtag: cashtag.toUpperCase(),
+    });
+
+    if (!cashtagDoc) return [];
+
+    return cashtagDoc.mentioned_by
+      .sort((a, b) => b.mention_count - a.mention_count)
+      .slice(0, limit);
+  } catch (error) {
+    console.error("Error getting top mentioners:", error);
+    return [];
   }
 };
 
@@ -44,10 +152,10 @@ export const getTweetsFromList = async (listId: string) => {
 
     const base_url = `https://api.x.com/2/lists/${listId}/tweets`;
     let params: any = {
-        "tweet.fields": "author_id,entities,created_at,public_metrics,text",
-        expansions: `attachments.media_keys,article.media_entities`,
-        max_results: `15`,
-        "media.fields": `url,type,preview_image_url`,
+      "tweet.fields": "author_id,entities,created_at,public_metrics,text",
+      expansions: `attachments.media_keys,article.media_entities`,
+      max_results: `15`,
+      "media.fields": `url,type,preview_image_url`,
     };
 
     const tweetResponse = await axios.get(base_url, {
@@ -65,7 +173,7 @@ export const getTweetsFromList = async (listId: string) => {
       includes: tweetResponse.data.includes,
     };
   } catch (error: any) {
-    console.log("error fetching tweets from list", error.response.data.errors);
+    console.log("error fetching tweets from list", error.response.data);
     return {
       tweets: [],
       includes: [],
@@ -74,7 +182,6 @@ export const getTweetsFromList = async (listId: string) => {
 };
 
 export const processText = async (tweetText: string, tweetId: string) => {
-  // Handle retweets first (as in your original code)
   let processedText = tweetText;
   if (processedText.startsWith("RT")) {
     processedText = processedText.slice(3);
@@ -84,21 +191,19 @@ export const processText = async (tweetText: string, tweetId: string) => {
     }
   }
 
-  // Remove URLs that point to the tweet's own media
-  // Pattern: https://t.co/XXXX followed by end of string
-  // First, identify if the last part of the tweet is a t.co URL
   const tcoUrlPattern = /https:\/\/t\.co\/\w+$/;
   const tcoMatch = processedText.match(tcoUrlPattern);
-  
+
   if (tcoMatch) {
-    // This likely points to media or a quoted tweet, so remove it
-    processedText = processedText.replace(tcoMatch[0], '').trim();
+    processedText = processedText.replace(tcoMatch[0], "").trim();
   }
-  
-  // Alternative approach: if we know the tweet's ID, we can look for URLs that reference it
+
   if (tweetId) {
-    const selfReferencePattern = new RegExp(`https://(?:x\\.com|twitter\\.com)/[^/]+/status/${tweetId}/(?:photo|video)/\\d+`, 'g');
-    processedText = processedText.replace(selfReferencePattern, '').trim();
+    const selfReferencePattern = new RegExp(
+      `https://(?:x\\.com|twitter\\.com)/[^/]+/status/${tweetId}/(?:photo|video)/\\d+`,
+      "g"
+    );
+    processedText = processedText.replace(selfReferencePattern, "").trim();
   }
 
   return processedText;
@@ -162,6 +267,10 @@ export const processTweet = async (
       hashtags = tweet.entities.hashtags.map((tag: any) => tag.tag).join(", ");
     }
 
+    // Extract cashtags from the tweet text
+    const cashtags = extractCashtags(tweet.text);
+    const cashtagsString = cashtags.join(", ");
+
     // Process media
     const mediaList = await extractMediaForTweet(tweet, allMedia);
     const hasVideo = mediaList.some((media) => media.type === "video");
@@ -177,6 +286,7 @@ export const processTweet = async (
       username: user.username,
       media: mediaList,
       hashtags: hashtags,
+      cashtags: cashtagsString, // Add cashtags to tweet data
       profile_image_url: user.profile_image_url,
       retweet_count: tweet.public_metrics?.retweet_count || 0,
       like_count: tweet.public_metrics?.like_count || 0,
@@ -186,12 +296,22 @@ export const processTweet = async (
       created_at: tweet.created_at,
     };
 
-    // Create tweet object to save
     const tweetToSave = new Tweet(tweetData);
 
-    // Save to database
     try {
       await tweetToSave.save();
+
+      // Update cashtag tracking after successfully saving the tweet
+      if (cashtags.length > 0) {
+        await updateCashtagTracking(
+          cashtags,
+          authorId,
+          user.username,
+          tweet.id,
+          new Date(tweet.created_at)
+        );
+      }
+
       return tweetData;
     } catch (saveError) {
       console.error(`Failed to save tweet ${tweet.id}:`, saveError);

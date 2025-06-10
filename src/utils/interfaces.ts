@@ -9,20 +9,22 @@ export interface IMedia {
 }
 
 export interface ITweet {
-  author_id: string;
   tweet_id: string;
+  author_id: string;
   text: string;
   username: string;
   media: IMedia[];
   hashtags: string;
-  created_at: Date;
+  cashtags: string; // New field for cashtags
   profile_image_url: string;
   retweet_count: number;
-  like_count?: number;
-  reply_count?: number;
-  quote_count?: number;
+  like_count: number;
+  reply_count: number;
+  quote_count: number;
   hasVideo: boolean;
+  created_at: string;
 }
+
 
 export type MediaItem = {
   media_key: string;
