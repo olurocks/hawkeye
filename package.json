@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env MODE=npx tsx src/app.ts",
+    "start": "cross-env MODE=production npx tsx src/app.ts",
     "dev": "cross-env MODE=development nodemon --exec npx tsx src/app.ts"
   },
   "keywords": [],
