@@ -1,14 +1,12 @@
-// twitterClient.ts - Modified to accept socket.io instance
-import {processTweet, getTweetsFromList} from "./utils/helpers"
+import { processTweet, getTweetsFromList } from "./utils/helpers";
 import { Server } from "socket.io";
-
 
 const listId = "1923446693082612078";
 
 export const pollTweets = async (io: Server) => {
   try {
     const { tweets, includes } = await getTweetsFromList(listId);
-    
+
     if (tweets && tweets.length > 0) {
       const newTweets = [];
 
@@ -28,5 +26,3 @@ export const pollTweets = async (io: Server) => {
     console.error("Error polling tweets:", error);
   }
 };
-
-

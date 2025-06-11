@@ -1,4 +1,3 @@
-// server.ts - Modified to export both server and io
 import { createServer } from "http";
 import { Server } from "socket.io";
 import express from "express";

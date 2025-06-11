@@ -1,4 +1,3 @@
-// index.ts - Main application entry point
 import { startServer } from "./server";
 import { pollTweets } from "./twitterClient";
 // This file connects your Twitter client and server together

@@ -1,5 +1,4 @@
-// models/cashtag.model.ts
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
 interface IMentionedBy {
   author_id: string;
@@ -19,51 +18,54 @@ export interface ICashtag extends Document {
 const MentionedBySchema = new Schema<IMentionedBy>({
   author_id: {
     type: String,
-    required: true
+    required: true,
   },
   username: {
     type: String,
-    required: true
+    required: true,
   },
   mention_count: {
     type: Number,
     required: true,
-    default: 1
+    default: 1,
   },
   last_mentioned: {
     type: Date,
-    required: true
-  }
+    required: true,
+  },
 });
 
-const CashtagSchema = new Schema<ICashtag>({
-  cashtag: {
-    type: String,
-    required: true,
-    unique: true,
-    uppercase: true,
-    trim: true
+const CashtagSchema = new Schema<ICashtag>(
+  {
+    cashtag: {
+      type: String,
+      required: true,
+      unique: true,
+      uppercase: true,
+      trim: true,
+    },
+    mention_count: {
+      type: Number,
+      required: true,
+      default: 1,
+    },
+    first_mentioned: {
+      type: Date,
+      required: true,
+    },
+    last_mentioned: {
+      type: Date,
+      required: true,
+    },
+    mentioned_by: [MentionedBySchema],
   },
-  mention_count: {
-    type: Number,
-    required: true,
-    default: 1
-  },
-  first_mentioned: {
-    type: Date,
-    required: true
-  },
-  last_mentioned: {
-    type: Date,
-    required: true
-  },
-  mentioned_by: [MentionedBySchema]
-}, {
-  timestamps: true
-});
+  {
+    timestamps: true,
+  }
+);
 
 CashtagSchema.index({ mention_count: -1 });
 CashtagSchema.index({ last_mentioned: -1 });
-CashtagSchema.index({ 'mentioned_by.author_id': 1 });
+CashtagSchema.index({ "mentioned_by.author_id": 1 });
 
-export const Cashtag = mongoose.model<ICashtag>('Cashtag', CashtagSchema);
+export const Cashtag = mongoose.model<ICashtag>("Cashtag", CashtagSchema);
