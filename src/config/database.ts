@@ -1,8 +1,6 @@
-const mongoose = require("mongoose")
-
-const db_username = process.env.MONGODB_USERNAME
-const db_password = process.env.MONGODB_PASSWORD
-
+import mongoose from "mongoose";
+const db_username = process.env.MONGODB_USERNAME;
+const db_password = process.env.MONGODB_PASSWORD;
 
 export const connectDb = async () => {
   try {
@@ -14,4 +12,3 @@ export const connectDb = async () => {
     console.error("MongoDB connection error", error.message);
   }
 };
-
