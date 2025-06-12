@@ -7,7 +7,7 @@ import { Tweet } from "./models/tweet.model";
 import { ITweet } from "./utils/interfaces";
 import { pollTweets } from "./twitterClient";
 
-import cors from "cors";
+import { default as cors } from "cors";
 import { CashtagUtils } from "./helpers/cashtagHelpers";
 import { error } from "console";
 
@@ -111,7 +111,6 @@ export async function startServer() {
     }
   });
 
-  // Start listening on specified port
   await new Promise<void>((resolve) => {
     httpServer.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
@@ -119,8 +118,6 @@ export async function startServer() {
     });
   });
 
-  // Return the io and server instances for use by the Twitter client
   return { io, server: httpServer };
 }
 
-// Helper function for emitting tweets (for reference)

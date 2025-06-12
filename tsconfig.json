@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "ES2020",      // Or "ES2020", "Node16", "NodeNext"
-    "target": "ES2020",      // Good default for modern Node.js apps
+    "module": "esnext", // Or "ES2020", "Node16", "NodeNext"
+    "target": "ES2020", // Good default for modern Node.js apps
     "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "outDir": "./dist",
